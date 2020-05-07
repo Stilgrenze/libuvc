@@ -87,11 +87,11 @@ int uvc_get_ctrl_len(uvc_device_handle_t *devh, uint8_t unit, uint8_t ctrl) {
  *   a uvc_error_t error describing the error encountered.
  * @ingroup ctrl
  */
-int uvc_get_ctrl(uvc_device_handle_t *devh, uint8_t unit, uint8_t ctrl, void *data, int len, enum uvc_req_code req_code) {
+int uvc_get_ctrl(uvc_device_handle_t *devh, uint8_t unit, uint16_t ctrl, void *data, int len, enum uvc_req_code req_code) {
   return libusb_control_transfer(
     devh->usb_devh,
     REQ_TYPE_GET, req_code,
-    ctrl << 8,
+    ctrl,
     unit << 8 | devh->info->ctrl_if.bInterfaceNumber,		// XXX saki
     data,
     len,
@@ -110,11 +110,11 @@ int uvc_get_ctrl(uvc_device_handle_t *devh, uint8_t unit, uint8_t ctrl, void *da
  *   a uvc_error_t error describing the error encountered.
  * @ingroup ctrl
  */
-int uvc_set_ctrl(uvc_device_handle_t *devh, uint8_t unit, uint8_t ctrl, void *data, int len) {
+int uvc_set_ctrl(uvc_device_handle_t *devh, uint8_t unit, uint16_t ctrl, void *data, int len) {
   return libusb_control_transfer(
     devh->usb_devh,
     REQ_TYPE_SET, UVC_SET_CUR,
-    ctrl << 8,
+    ctrl,
     unit << 8 | devh->info->ctrl_if.bInterfaceNumber,		// XXX saki
     data,
     len,
